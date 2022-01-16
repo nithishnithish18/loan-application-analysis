@@ -28,3 +28,14 @@ resRDD1 = rdd.filter(lambda x: x.split(",")[5] >= '2019-04-01' and x.split(",")[
 finalRes = resRDD1.reduce(lambda x, y: (x if x[1]>y[1] else y))
 print(finalRes)
 
+#2 max, min, average number of application submitted by customer id.
+resRDD2 = rdd.filter(lambda x: x.split(",")[5] >= '2019-04-01' and x.split(",")[5] < '2020-04-31').map(lambda x: (x.split(",")[1],1)) \
+          .reduceByKey(lambda x,y : x+y) \
+          .reduce(lambda x,y: x if x[1] > y[1] else y)
+
+resRDD3 = rdd.filter(lambda x: x.split(",")[5] >= '2019-04-01' and x.split(",")[5] < '2020-04-31').map(lambda x: (x.split(",")[1],1)) \
+          .reduceByKey(lambda x,y : x+y) \
+          .reduce(lambda x,y: x if x[1] < y[1] else y)
+
+print(f'max no of application is submitted by {resRDD2}')
+print(f'min no of application is submitted by {resRDD3}')
